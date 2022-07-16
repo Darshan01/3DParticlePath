@@ -1,0 +1,98 @@
+SetAttributes[path, HoldAll]
+
+x[t_] := Evaluate@Input["Enter x(t)"]
+y[t_] := Evaluate@Input["Enter y(t)"]
+z[t_] := Evaluate@Input["Enter z[t]"]
+
+path[e_[c_], f_[c_], g_[c_], a_, b_, x1_, x2_, y1_, y2_, z1_, z2_, 
+  speed_] := (
+  Manipulate[
+   Animate[
+    {Column[{"Time (t)", T,
+       
+        "{Position (Red)}, {Magnitude}",
+       
+       {{e[T], f[T], g[T]}, {Sqrt[e[T]^2 + f[T]^2 + g[T]^2]}},
+       
+       Show[
+        {Plot[Sqrt[e[t]^2 + f[t]^2 + g[t]^2], {t, a, b}, 
+          AxesLabel -> {time, Magnitude}, 
+          PlotLabel -> "Positon Magnitude" , PlotStyle -> {Red},  
+          ImageSize -> Medium],
+          
+         Graphics[{Red, PointSize[0.03], 
+           Point[{T, Sqrt[e[T]^2 + f[T]^2 + g[T]^2]}]}]}
+        ],
+       
+       "{Velocity (Green)} {Magnitude}",
+       
+       {{e'[T], f'[T], g'[T]}, {Sqrt[e'[T]^2 + f'[T]^2 + g'[T]^2]}},
+       
+       Show[
+        Plot[Sqrt[e'[t]^2 + f'[t]^2 + g'[t]^2], {t, a, b}, 
+         AxesLabel -> {time, Magnitude}, 
+         PlotLabel -> "Velocity Magnitude" , PlotStyle -> {Green},  
+         ImageSize -> Medium], 
+        Graphics[{Green, PointSize[0.03], 
+          Point[{T, Sqrt[e'[T]^2 + f'[T]^2 + g'[T]^2]}]},
+         ]
+        ],
+       
+        "{Acceleration (Blue)},   {Magnitude}",
+       
+        {{e''[T], f''[T], g''[T]}, 
+        
+        {Sqrt[e''[T]^2 + f''[T]^2 + g''[T]^2]}},
+       
+       Show[
+        Plot[Sqrt[e''[t]^2 + f''[t]^2 + g''[t]^2], {t, a, b}, 
+         AxesLabel -> {time, Magnitude}, 
+         PlotLabel -> "Acceleration Magnitude" , PlotStyle -> {Blue}, 
+         ImageSize -> Medium], 
+        Graphics[{Blue, PointSize[0.03], 
+          Point[{T, Sqrt[e''[T]^2 + f''[T]^2 + g''[T]^2]}]}]
+        ]
+       }],
+     
+     Show[
+      ParametricPlot3D[{e[c], f[c], g[c]}, {c, a, b}, 
+       PlotStyle -> Thick, 
+       PlotRange -> {{x1, x2}, {y1, y2}, {z1, z2}}, 
+       AxesLabel -> {x, y, z}, ImageSize -> Large], 
+      Graphics3D[{Red, PointSize[.03], Point[{e[T], f[T], g[T]}], 
+        If[
+         pos == True, {Red, Arrowheads[0.05], 
+          Arrow[Tube[{{0, 0, 0}, {e[T], f[T], g[T]}}, 0.05]]}],
+        If[
+         vel == True, {Green, Arrowheads[0.05], 
+          Arrow[
+           Tube[{{e[T], f[T], g[T]}, {e[T] + e'[T], f[T] + f'[T], 
+              g[T] + g'[T]}}, 0.05]]}],
+        If[
+         acc == True, {Blue, Arrowheads[0.05], 
+          Arrow[
+           Tube[{{e[T], f[T], g[T]}, {e[T] + e''[T], f[T] + f''[T], 
+              g[T] + g''[T]}}, 0.05]]}]
+        }]
+      ]}
+    ,
+    
+    {T, a, b}, AnimationDirection -> Forward, AnimationRate -> speed, 
+    AnimationRunning -> False, AppearanceElements -> All],
+   
+   Grid[{{Control[{{pos, True, ""}, {False, True}}], 
+      "Show Position Vector"}, {Control[{{vel, True, ""}, {False, 
+         True}}], 
+      "Show Velocity Vector"}, {Control[{{acc, True, ""}, {False, 
+         True}}], "Show Acceleration Vector"}}]
+   ]
+  )
+(*path[x,   y,     z,   t0,t1,  x0,x1, y1,y2, z1,z2  speed*)
+\
+Manipulate[{
+  path[x[t], y[t], z[t], t0, t1, x0, x1, -5, 5, 0, 10, 0.05]},
+  Grid[{Control[{t0, 0}]}, {Control[{t1, 10}]}, {Control[{x0, 
+     0}]}, {Control[{x1, 10}]}, {Control[{y0, 0}]}, {Control[{y1, 
+     10}]}, {Control[{z0, 0}]}, {Control[{z1, 10}]}, {Control[{speed, 
+     0.5}]}]
+ ]
