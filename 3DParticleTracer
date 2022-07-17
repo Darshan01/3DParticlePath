@@ -90,9 +90,10 @@ path[e_[c_], f_[c_], g_[c_], a_, b_, x1_, x2_, y1_, y2_, z1_, z2_,
 (*path[x,   y,     z,   t0,t1,  x0,x1, y1,y2, z1,z2  speed*)
 \
 Manipulate[{
-  path[x[t], y[t], z[t], t0, t1, x0, x1, -5, 5, 0, 10, 0.05]},
-  Grid[{Control[{t0, 0}]}, {Control[{t1, 10}]}, {Control[{x0, 
-     0}]}, {Control[{x1, 10}]}, {Control[{y0, 0}]}, {Control[{y1, 
-     10}]}, {Control[{z0, 0}]}, {Control[{z1, 10}]}, {Control[{speed, 
-     0.5}]}]
+  path[x[t], y[t], z[t], t0, t1, x0, x1, y0, y1, z0, z1, speed]},
+  Grid[{Control[{t0, 0}]}, {Control[{t1, 
+     10}]}, {Control[{x0, -5}]}, {Control[{x1, 
+     5}]}, {Control[{y0, -5}]}, {Control[{y1, 
+     5}]}, {Control[{z0, -5}]}, {Control[{z1, 5}]}, {Control[{speed, 
+     1}]}]
  ]
