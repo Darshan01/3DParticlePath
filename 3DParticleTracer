@@ -1,14 +1,16 @@
 SetAttributes[path, HoldAll]
-
-x[t_] := Evaluate@Input["Enter x(t)"]
-y[t_] := Evaluate@Input["Enter y(t)"]
-z[t_] := Evaluate@Input["Enter z[t]"]
+(*Input your vector as functions of x, y, and z*)
+x[t_] := Cos[2 t]
+y[t_] := Sin[2 t]
+z[t_] := t
 
 path[e_[c_], f_[c_], g_[c_], a_, b_, x1_, x2_, y1_, y2_, z1_, z2_, 
   speed_] := (
   Manipulate[
    Animate[
-    {Column[{"Time (t)", T,
+    {Column[{"Time (t)", T, " ",
+       
+       {e[t], f[t], g[t]},
        
         "{Position (Red)}, {Magnitude}",
        
@@ -24,6 +26,8 @@ path[e_[c_], f_[c_], g_[c_], a_, b_, x1_, x2_, y1_, y2_, z1_, z2_,
            Point[{T, Sqrt[e[T]^2 + f[T]^2 + g[T]^2]}]}]}
         ],
        
+       {e'[t], f'[t], g'[t]},
+       
        "{Velocity (Green)} {Magnitude}",
        
        {{e'[T], f'[T], g'[T]}, {Sqrt[e'[T]^2 + f'[T]^2 + g'[T]^2]}},
@@ -37,6 +41,8 @@ path[e_[c_], f_[c_], g_[c_], a_, b_, x1_, x2_, y1_, y2_, z1_, z2_,
           Point[{T, Sqrt[e'[T]^2 + f'[T]^2 + g'[T]^2]}]},
          ]
         ],
+       
+       {e''[t], f''[t], g''[t]},
        
         "{Acceleration (Blue)},   {Magnitude}",
        
@@ -74,11 +80,10 @@ path[e_[c_], f_[c_], g_[c_], a_, b_, x1_, x2_, y1_, y2_, z1_, z2_,
            Tube[{{e[T], f[T], g[T]}, {e[T] + e''[T], f[T] + f''[T], 
               g[T] + g''[T]}}, 0.05]]}]
         }]
-      ]}
-    ,
+      ]},
     
     {T, a, b}, AnimationDirection -> Forward, AnimationRate -> speed, 
-    AnimationRunning -> False, AppearanceElements -> All],
+    AnimationRunning -> True, AppearanceElements -> All],
    
    Grid[{{Control[{{pos, True, ""}, {False, True}}], 
       "Show Position Vector"}, {Control[{{vel, True, ""}, {False, 
@@ -95,5 +100,5 @@ Manipulate[{
      10}]}, {Control[{x0, -5}]}, {Control[{x1, 
      5}]}, {Control[{y0, -5}]}, {Control[{y1, 
      5}]}, {Control[{z0, -5}]}, {Control[{z1, 5}]}, {Control[{speed, 
-     1}]}]
+     0.5}]}]
  ]
